@@ -62,12 +62,14 @@ BASE 理论是对 CAP 定理中一致性和可用性权衡的结果，核心思�
   2.事务回滚  
   3.反馈事务回滚结果  
   4.中断事务   
-2PC交互流程如下：  
+**2PC交互流程如下：**   
 ![](https://github.com/JianMin-Xie/Learning-Note/blob/master/pic/2PC交互流程.jpg)  
 ## 2PC的优缺点：
 优点：原理简单，实现方便。  
 缺点：同步阻塞、单点问题、数据不一致、太过保守。
 
-
+## 3PC
+3PC，三阶段提交，是2PC的改进版，将二阶段提交协议的“提交事务请求”过程一分为二，形成了由 CanCommit、PreCommit 和 doCommit 三个阶段组成的事务处理协议，其协议设计如下：  
+![](https://github.com/JianMin-Xie/Learning-Note/blob/master/pic/3PC流程.jpg)
 
 
