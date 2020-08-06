@@ -65,6 +65,8 @@ BASE 理论是对 CAP 定理中一致性和可用性权衡的结果，核心思�
   3.反馈事务回滚结果
   4.中断事务
 
+2PC交互流程如下：
 
+![](https://github.com/JianMin-Xie/Learning-Note/blob/master/pic/2PC交互流程.jpg)
 
 
