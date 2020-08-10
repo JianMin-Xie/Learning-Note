@@ -50,5 +50,69 @@ public @interface EnableAutoConfiguration {
 }
 ```
 关键功能是 @Import 注解导入的配置功能，AutoConfigurationImportSelector 使用 SpringFactoryLoader.loadFactoryNames 方法来扫描具有 META-INF/spring.factories 文件的 jar 包，在 spring-boot-autoconfigure-2.1.0.x.jar 中有一个 spring.factories 文件，此文件声明了有哪些自动配置，如下图所示：  
-![](https://github.com/JianMin-Xie/Learning-Note/blob/master/pic/spring.factories文件.jpg)
+![](https://github.com/JianMin-Xie/Learning-Note/blob/master/pic/spring.factories文件.jpg)  
+
+每一个自动配置类进行自动配置功能（spring.factories中的每一行对应的类）,以 HttpEncodingAutoConfiguration 为例讲解一下：  
+```
+//加载application全局配置文件内的部分配置到HttpEncodingProperties里面
+@Configuration
+@EnableConfigurationProperties({HttpEncodingProperties.class}) 
+//当web容器类型是servlet的时候执行本类中的自动装配代码
+@ConditionalOnWebApplication(
+    type = Type.SERVLET
+)
+//当有一个CharacterEncodingFilter的这样一个类的字节码文件时时执行本类中的自动装配代码
+@ConditionalOnClass({CharacterEncodingFilter.class})
+//当spring.http.encoding配置值为enabled的时候执行本类中的自动装配代码
+@ConditionalOnProperty(
+    prefix = "spring.http.encoding",
+    value = {"enabled"},
+    matchIfMissing = true   //如果application配置文件里面不配置，默认为true
+)
+public class HttpEncodingAutoConfiguration {
+    private final HttpEncodingProperties properties;
+
+    public HttpEncodingAutoConfiguration(HttpEncodingProperties properties) {
+        this.properties = properties;
+    }
+
+    @Bean
+    //当没有CharacterEncodingFilter这个Bean就实例化CharacterEncodingFilter为一个bean
+    @ConditionalOnMissingBean
+    public CharacterEncodingFilter characterEncodingFilter() {
+        CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
+        filter.setEncoding(this.properties.getCharset().name());
+        filter.setForceRequestEncoding(this.properties.shouldForce(org.springframework.boot.autoconfigure.http.HttpEncodingProperties.Type.REQUEST));
+        filter.setForceResponseEncoding(this.properties.shouldForce(org.springframework.boot.autoconfigure.http.HttpEncodingProperties.Type.RESPONSE));
+        return filter;
+    }
+
+    @Bean
+    public HttpEncodingAutoConfiguration.LocaleCharsetMappingsCustomizer localeCharsetMappingsCustomizer() {
+        return new HttpEncodingAutoConfiguration.LocaleCharsetMappingsCustomizer(this.properties);
+    }
+    
+   //此处省略与自动加载无关的代码：HttpEncode的逻辑及其他
+}
+```
+在配置类加载过程中，大量的使用到了条件加载注解：  
+| 条件注解                            | 使用说明                                           |
+|---------------------------------|------------------------------------------------|
+| @ConditionalOnClass             | classpath中存在该类字节码文件时，才执行实例化方法或将类实例化            |
+| @ConditionalOnMissingClass      | classpath中不存在该类字节码文件时，才执行实例化方法。（不存在A的时候去初始化B）  |
+| @ConditionalOnBean              | DI容器中存在该类型Bean时，才执行实例化方法或将类实例化                 |
+| @ConditionalOnMissingBean       | DI容器中不存在该类型Bean时，才执行实例化方法或将类实例化                |
+| @ConditionalOnSingleCandidate   | DI容器中该类型Bean只有一个或@Primary的只有一个时，才执行实例化方法或将类实例化 |
+| @ConditionalOnExpression        | SpEL表达式结果为true时，才执行实例化方法或将类实例化                 |
+| @ConditionalOnProperty          | 参数设置或者值一致时，才执行实例化方法或将类实例化                      |
+| @ConditionalOnResource          | 指定的文件存在时，才执行实例化方法或将类实例化                        |
+| @ConditionalOnJndi              | 指定的JNDI存在时，才执行实例化方法或将类实例化                      |
+| @ConditionalOnJava              | 指定的Java版本存在时，才执行实例化方法或将类实例化                    |
+| @ConditionalOnWebApplication    | Web应用环境下，才执行实例化方法或将类实例化                        |
+| @ConditionalOnNotWebApplication | 非Web应用环境下，才执行实例化方法或将类实例化                       |
+
+
+
+
+
 
