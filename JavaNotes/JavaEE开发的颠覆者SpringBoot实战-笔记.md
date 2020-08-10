@@ -50,5 +50,5 @@ public @interface EnableAutoConfiguration {
 }
 ```
 关键功能是 @Import 注解导入的配置功能，AutoConfigurationImportSelector 使用 SpringFactoryLoader.loadFactoryNames 方法来扫描具有 META-INF/spring.factories 文件的 jar 包，在 spring-boot-autoconfigure-2.1.0.x.jar 中有一个 spring.factories 文件，此文件声明了有哪些自动配置，如下图所示：  
-![](https://github.com/JianMin-Xie/Learning-Note/pic/spring.factories.jpg)
+![](https://github.com/JianMin-Xie/Learning-Note/blob/master/pic/spring.factories文件.jpg)
 
