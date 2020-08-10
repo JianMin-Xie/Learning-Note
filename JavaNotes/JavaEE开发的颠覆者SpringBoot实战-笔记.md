@@ -32,3 +32,23 @@ public @interface SpringBootApplication {
 
 * @EnableAutoConfiguration 会根据类路径中的 jar 包依赖为当前项目进行自动配置
 
+核心功能由 @EnableAutoConfiguration 注解提供，源码为：  
+```
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@AutoConfigurationPackage
+@Import(AutoConfigurationImportSelector.class)
+public @interface EnableAutoConfiguration {
+
+	String ENABLED_OVERRIDE_PROPERTY = "spring.boot.enableautoconfiguration";
+
+	Class<?>[] exclude() default {};
+
+	String[] excludeName() default {};
+}
+```
+关键功能是 @Import 注解导入的配置功能，AutoConfigurationImportSelector 使用 SpringFactoryLoader.loadFactoryNames 方法来扫描具有 META-INF/spring.factories 文件的 jar 包，在 spring-boot-autoconfigure-2.1.0.x.jar 中有一个 spring.factories 文件，此文件声明了有哪些自动配置，如下图所示：  
+![](https://github.com/JianMin-Xie/Learning-Note/pic/spring.factories.jpg)
+
