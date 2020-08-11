@@ -1,4 +1,14 @@
-# 基本配置
+# Spring 常用配置
+## Bean Scope
+通过 @Scope 来实现，有以下几种：
+* Singleton：spring 的默认配置，一个spring容器中只有一个Bean实例。
+* Prototype：每次调用都新建一个Bean实例。
+* Request：Web项目中，给每一个http Request新建一个Bean实例。
+* Session：Web项目中，给每一个http Session新建一个Bean实例。
+* GlobalSesson：这个只在protal应用中有用，给每一个global http Session新建一个Bean实例。
+
+
+# Spring Boot基本配置
 ## 入口类和 @SpringBootApplication
 SpirngBoot 通常有一个名为 xxxApplication 的入口类，入口类里有一个 main 方法，这个 main 方法就是一个标准的 Java 应用程序的入口方法。
 
