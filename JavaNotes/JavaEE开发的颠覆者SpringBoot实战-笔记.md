@@ -9,6 +9,10 @@
 
 
 # Spring Boot基本配置
+## SpEL表达式
+Spring Expression Language (SpEL)是一种功能非常强大的表达式语言，可用于在运行时查询和操作对象。 SpEL书写在XML配置文件或者Annotation注解上，在Spring Bean的创建过程中生效。  
+
+
 ## 入口类和 @SpringBootApplication
 SpirngBoot 通常有一个名为 xxxApplication 的入口类，入口类里有一个 main 方法，这个 main 方法就是一个标准的 Java 应用程序的入口方法。
 
