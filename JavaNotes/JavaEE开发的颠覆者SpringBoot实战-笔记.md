@@ -21,10 +21,10 @@ Spring 的事件需要遵循如下流程：
 在实际项目中，不可避免要用到 Spring 容器本身的功能资源，此时 Bean 必须要意识到 Spring 容器的存在，才能调用 Spring 所提供的资源，这就是所谓的 Spring Aware。使用 Spring Aware，Bean 将会和 Spring 框架耦合。Spring Aware 的目的是为了让 Bean 获得 Spring 容器的服务。
 
 ## 多线程
-Spring 通过任务执行器（TaskExecutor）来实现多线程和并发编程。实际开发任务中一般是非阻碍的，即异步的，所以需要在配制类中通过 @EnableAsync 开启对异步任务的支持，在实际执行的 Bean 方法中使用 @Async 注解声明其实一个异步任务。
+Spring 通过任务执行器（TaskExecutor）来实现多线程和并发编程。实际开发任务中一般是非阻碍的，即异步的，所以需要在配置类中通过 @EnableAsync 开启对异步任务的支持，在实际执行的 Bean 方法中使用 @Async 注解声明其实一个异步任务。
 
 ## 计划任务
-配制类注解 @EnableScheduling 开启对计划任务的支持，要执行计划任务的方法上注解 @Scheduling 声明这是一个计划任务。
+配置类注解 @EnableScheduling 开启对计划任务的支持，要执行计划任务的方法上注解 @Scheduling 声明这是一个计划任务。
 
 
 # Spring Boot基本配置
