@@ -26,15 +26,21 @@ Spring 通过任务执行器（TaskExecutor）来实现多线程和并发编程�
 ## 计划任务
 配置类注解 @EnableScheduling 开启对计划任务的支持，要执行计划任务的方法上注解 @Scheduling 声明这是一个计划任务。
 
+## 条件注解 @Conditional
+@Conditional 根据满足某一个特定条件创建一个特定的 Bean。总的来说，就是根据特定条件来控制 Bean 的创建行为，这样我们可以利用这个特性进行一些自动的配置。
+
+## 组合注解与元注解
+元注解就是可以注解到别的注解上的注解，被注解的注解称为组合注解。组合注解具备元注解的功能。
+
 
 # Spring Boot基本配置
 ## SpEL表达式
 Spring Expression Language (SpEL)是一种功能非常强大的表达式语言，可用于在运行时查询和操作对象。 SpEL书写在XML配置文件或者Annotation注解上，在Spring Bean的创建过程中生效。  
 
-
 ## 入口类和 @SpringBootApplication
 SpirngBoot 通常有一个名为 xxxApplication 的入口类，入口类里有一个 main 方法，这个 main 方法就是一个标准的 Java 应用程序的入口方法。
 
+## 核心注解 @SpringBootApplication
 @SpringBootApplication 是 SpringBoot 的核心注解，它是一个组合注解，源码如下：  
 ```
 @Target(ElementType.TYPE)
