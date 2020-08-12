@@ -10,6 +10,13 @@
 ## Profile
 Profile 为在不同环境下使用不同的配置提供了支持，在开发中使用 @Profile 注解类或者方法，达到在不同情况下选择实例化不同的 Bean。
 
+## 事件（Application Event）
+Spring 的事件为 Bean 与 Bean 之间的消息通信提供了支持。  
+Spring 的事件需要遵循如下流程：  
+(1) 自定义事件，集成 ApplicationEvent  
+(2) 定义事件监听器，实现 ApplicationListener  
+(3) 使用容器发布事件  
+
 ## Spring Aware
 在实际项目中，不可避免要用到 Spring 容器本身的功能资源，此时 Bean 必须要意识到 Spring 容器的存在，才能调用 Spring 所提供的资源，这就是所谓的 Spring Aware。使用 Spring Aware，Bean 将会和 Spring 框架耦合。Spring Aware 的目的是为了让 Bean 获得 Spring 容器的服务。
 
