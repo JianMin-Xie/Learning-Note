@@ -54,19 +54,24 @@ Spring 通过任务执行器（TaskExecutor）来实现多线程和并发编程�
 `@RestController`相当于 `@Controller`和`@ResponseBody`结合。它有两层含义：
 * 一是作为Controller的作用，将控制器类注入到Spring上下文环境，该类RequestMapping标注方法为HTTP服务端点。
 * 二是作为ResponseBody的作用，请求响应默认使用的序列化方式是JSON，而不是跳转到jsp或模板页面。
-
 ## Spring MVC 基本配置
 ### 静态资源映射
 程序的静态文件（js、css、图片）等需要直接访问，这时我们需要在配置里重写 addResourceHandlers 方法来实现。
 ### 拦截器
 拦截器实现对每一个请求处理前后进行相关的业务处理，类似于 Servlet 的 Filter。可以让普通的 Bean 实现 HandlerInterceptor 接口或者继承 HandlerInterceptorAdapter 类来实现自定义拦截器。  
 通过重写 WebMvcConfigurerAdapter 的 addInterceptors 方法来注册自定义拦截器。
+### 文件上传
+Spring MVC通过配置 MultipartResolver 来上传文件。
+### 自定义 HttpMessageConvertor
+HttpMessageConvertor 是用来处理 request 和 response 里的数据的。通常来说，继承 AbstractHttpMessageConverter<> 实现。
+### 服务器推送技术
+服务器推送的方案都是基于：当客户端向服务端放请求，服务端会抓住这个请求不放，等有数据更新的时候才返回客户端，当客户端接收到消息后，再向服务端发送请求，周而复始。  
+(1) 基于 SSE（Server Send Event 服务端发送事件）的服务器端推送  
+(2) 基于 Servlet 3.0+ 的异步方法特性  
 
 # Spring Boot基本配置 
-
 ## 入口类和 @SpringBootApplication
 SpirngBoot 通常有一个名为 xxxApplication 的入口类，入口类里有一个 main 方法，这个 main 方法就是一个标准的 Java 应用程序的入口方法。
-
 ## 核心注解 @SpringBootApplication
 @SpringBootApplication 是 SpringBoot 的核心注解，它是一个组合注解，源码如下：  
 ```
