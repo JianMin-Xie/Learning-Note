@@ -170,8 +170,13 @@ Session 是指客户端会话，客户端启动的时候，首先会与服务器
 Watcher（事件监听器），ZooKeeper 允许用户在指定节点上注册一些 Watcher，并且在一些特定事件触发的时候，ZooKeeper 服务端会将事件通知到感兴趣的客户端上去。
 
 ## ACL
-ACL（Access Control Lists）策略，类似于 UNIX 文件系统的权限控制。
+采用ACL（Access Control Lists）策略，类似于 UNIX 文件系统的权限控制。
 
+# ZooKeeper 的 ZAB 协议
+## ZAB 协议
+事实上，ZooKeeper 并没有完全采用 Paxos 算法，而是使用了一种称为 ZooKeeper Atomic Broadcast（ZAB，ZooKeeper 原子消息广播协议）的协议作为其数据一致性的核心算法。
+
+ZAB 协议支持崩溃恢复，是专门为 ZooKeeper 设计的协议。
 
 
 
