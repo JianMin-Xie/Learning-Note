@@ -285,5 +285,11 @@ Curator 也是基于这个思路。
 **分布式 Barrier**  
 Barrier 是一种用来控制多线程之间同步的经典方式，在 JDK 中也自带了 CyclicBarrier 实现。
 
+**工具类**   
+* ZKPaths：提供了一些简单的 API 来构建 ZNode 路径、递归创建和删除节点等。
+* EnsurePath：提供了一种能够确保数据节点的机制。
+
+
+
 
 
