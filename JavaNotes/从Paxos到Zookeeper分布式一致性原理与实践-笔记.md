@@ -191,11 +191,99 @@ ZAB 协议支持崩溃恢复，是专门为 ZooKeeper 设计的协议。
 
 总的来讲，ZAB 协议和 Paxos 算法的本质区别在于，两者的设计目标不太一样。ZAB 协议主要用于构建一个高可用的分布式数据主备系统，例如 ZooKeeper，而 Paxos 算法则是用于构建一个分布式的一致性状态机系统。
 
+# 使用 ZooKeeper
+## 部署与运行
+## 客户端脚本
+## Java 客户端 API 使用
+## 开源客户端
+### ZkClient
+ZkClient 在 ZooKeeper 原生 API 接口之上进行了包装，是一个更易用的 ZooKeeper 客户端。  
+依赖：  
+```
+<dependency>
+    <groupId>org.apache.zookeeper</groupId>
+    <artifactId>zookeeper</artifactId>
+    <version>3.4.6</version>
+</dependency>
 
+<dependency>
+    <groupId>com.github.sgroschupf</groupId>
+    <artifactId>zkclient</artifactId>
+    <version>0.1</version>
+</dependency>
+```
+这里举一个简单的例子，如创建会话：  
+```
+// 使用ZkClient来创建一个ZooKeeper客户端
+public class Create_Session_Sample {
+    public static void main(String[] args) throws IOException, InterruptedException {
+    	ZkClient zkClient = new ZkClient("192.168.102.140:2181", 5000);
+    	System.out.println("ZooKeeper session established.");
+    }
+}
+```
+创建节点、删除节点、读取数据和更新数据等操作的代码可以在 https://github.com/JianMin-Xie/hello-zookeeper 中自行阅读。  
+### Curator
+除了封装了底层细节之外，Curator 还在 ZooKeeper 原生 API 的基础上进行了包装，提供了一套易用性和可读性更强的 Fluent 风格的客户端 API 框架。  
 
+除此之外，Curator 中还提供了 ZooKeeper 各种应用场景（Recipe，如共享锁服务、Master 选举机制和分布式计数器等）的抽象封装。  
 
+依赖：  
+```
+<dependency>
+    <groupId>org.apache.curator</groupId>
+    <artifactId>curator-framework</artifactId>
+    <version>4.2.0</version>
+</dependency>
+```
+这里举一个简单的例子，如创建会话：  
+```
+//使用curator来创建一个ZooKeeper客户端
+public class Create_Session_Sample {
+    public static void main(String[] args) throws Exception{
+        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        CuratorFramework client =
+        CuratorFrameworkFactory.newClient("192.168.102.140:2181",
+        		5000,
+        		3000,
+        		retryPolicy);
+        client.start();
+        Thread.sleep(Integer.MAX_VALUE);
+    }
+}
+```
+创建节点、删除节点、读取数据和更新数据等操作的代码可以在 https://github.com/JianMin-Xie/hello-zookeeper 中自行阅读。 
+#### 典型的使用场景
+Curator 不仅提供了便利的 API 接口，而且提供了一些典型场景的使用参考。这些使用参考都在 recipes 包中。  
 
+依赖：  
+```
+<dependency>
+    <groupId>org.apache.curator</groupId>
+    <artifactId>curator-recipes</artifactId>
+    <version>4.2.0</version>
+</dependency>
+```
+**事件监听**  
+Curator 引入了 Cache 来实现对 ZooKeeper 服务端事件的监听。Cache 是 Curator 中对事件监听的包装。Cache 分两类监听类型：节点监听和子节点监听。  
 
+**NodeCache** 用于监听指定 ZooKeeper 数据节点本身的变化。
+
+**PathChildrenCache** 用于监听指定 ZooKeeper 数据节点的子节点变化情况。
+
+**Master 选举**  
+选举思路：选择一个根节点，例如/master_select，多台机器同时向该节点创建一个子节点/master_select/lock，利用 ZooKeeper 的特性，最终只有一台机器能够创建成功，成功的那台机器就作为 Master。
+
+Curator 也是基于这个思路。
+
+**分布式锁**  
+在分布式环境中，为了保证数据的一致性，经常在程序的某个运行点（例如，减库存操作或者流水号生成等）需要进行同步控制。
+
+**分布式计数器**  
+指定一个 ZooKeeper 数据节点作为计数器，多个应用实例在分布式锁的控制下，通过更新该数据节点的内容来实现技术功能。
+
+**分布式 Barrier**  
+Barrier 是一种用来控制多线程之间同步的经典方式，在 JDK 中也自带了 CyclicBarrier 实现。
 
 
 
