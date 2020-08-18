@@ -3,6 +3,8 @@
 # Java
 [📙深入理解Java虚拟机：JVM高级特性与最佳实践](https://github.com/JianMin-Xie/Learning-Note/blob/master/JavaNotes/JVM-Note.md)
 
+[📘Java并发编程的艺术](https://github.com/JianMin-Xie/Learning-Note/blob/master/JavaNotes/Java并发编程的艺术-笔记.md)
+
 # 分布式
 [📖从Paxos到Zookeeper分布式一致性原理与实践](https://github.com/JianMin-Xie/Learning-Note/blob/master/JavaNotes/从Paxos到Zookeeper分布式一致性原理与实践-笔记.md)
 
