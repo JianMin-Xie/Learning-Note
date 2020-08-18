@@ -1,3 +1,4 @@
+实战项目地址：https://github.com/JianMin-Xie/spring-boot-learning  
 # Spring 常用配置
 ## Bean Scope
 通过 @Scope 来实现，有以下几种：
